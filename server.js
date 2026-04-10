@@ -30,7 +30,9 @@ const db = mysql.createConnection({
   }
 });
 
-
+console.log("ENV CHECK:");
+console.log("KEY:", process.env.RAZORPAY_KEY_ID);
+console.log("DB HOST:", process.env.DB_HOST);
 // ✅ THEN CONNECT (AFTER CREATION)
 db.connect((err) => {
   if (err) {
