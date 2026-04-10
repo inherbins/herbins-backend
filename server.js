@@ -86,3 +86,10 @@ aconst PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
 });
+// db.connect((err) => {
+//   if (err) {
+//     console.log("DB Error:", err);
+//   } else {
+//     console.log("MySQL Connected");
+//   }
+// });
