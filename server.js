@@ -42,15 +42,18 @@ db.connect((err) => {
 
 
 // ✅ Razorpay
+console.log("KEY_ID:", process.env.RAZORPAY_KEY_ID);
 let razorpay;
 
 if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
-  razorpay = new Razorpay({
+  console.log("✅ Razorpay keys found");
+
+  razorpay = new (require("razorpay"))({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET
   });
 } else {
-  console.log("⚠️ Razorpay keys missing");
+  console.log("❌ Razorpay keys missing");
 }
 
 
