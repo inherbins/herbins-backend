@@ -10,10 +10,12 @@ const app = express();
 
 app.use(cors({
   origin: "*",
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type"]
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
-app.use(bodyParser.json());
+
+// ✅ VERY IMPORTANT (handles preflight)
+app.options("*", cors());
 
 
 // ✅ MySQL (CREATE FIRST)
