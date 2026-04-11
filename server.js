@@ -16,7 +16,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.options("*", cors());
+
 
 // ✅ VERY IMPORTANT (handles preflight)
 app.options("*", cors());
