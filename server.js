@@ -19,12 +19,10 @@ app.options("*", cors());
 
 
 // ✅ MySQL (CREATE FIRST)
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: 3306,
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
@@ -34,11 +32,11 @@ console.log("ENV CHECK:");
 console.log("KEY:", process.env.RAZORPAY_KEY_ID);
 console.log("DB HOST:", process.env.DB_HOST);
 // ✅ THEN CONNECT (AFTER CREATION)
-db.connect((err) => {
+pool.query('SELECT NOW()', (err, res) => {
   if (err) {
-    console.log("❌ DB ERROR:", err);
+    console.error('❌ DB ERROR:', err);
   } else {
-    console.log("✅ MySQL Connected");
+    console.log('✅ DB CONNECTED');
   }
 });
 
@@ -86,7 +84,7 @@ app.post("/save-order", (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(
+  pool.query(
     query,
     [
       name,
@@ -115,7 +113,7 @@ app.get("/", (req, res) => {
 
 
 // ✅ Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log("🚀 Server running on port", PORT);
