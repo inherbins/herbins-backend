@@ -83,7 +83,7 @@ app.post("/save-order", async (req, res) => {
       name,
       phone,
       address,
-      JSON.stringify(items),
+      items,
       amount,
       "PAID"
     ]);
