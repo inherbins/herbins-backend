@@ -11,14 +11,11 @@ const app = express();
 const cors = require('cors');
 
 app.use(cors({
-  origin: "https://herbins.shop",
+  origin: "*",   // allow all for now (to fix issue)
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-
-
-// ✅ VERY IMPORTANT (handles preflight)
 app.options("*", cors());
 
 
