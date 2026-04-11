@@ -75,10 +75,10 @@ app.post("/create-order", async (req, res) => {
 
 // ✅ Save Order
 app.post("/save-order", async (req, res) => {
-  const { name, phone, address, items, amount, payment_id } = req.body;
+  const { name, phone, address, items, amount } = req.body;
 
   const query = `
-    INSERT INTO orders (name, phone, address, items, amount, payment_id)
+    INSERT INTO orders (name, phone, address, items, amount, status)
     VALUES ($1, $2, $3, $4, $5, $6)
   `;
 
@@ -89,7 +89,7 @@ app.post("/save-order", async (req, res) => {
       address,
       JSON.stringify(items),
       amount,
-      payment_id
+      Paid
     ]);
 
     res.send("Order saved successfully");
