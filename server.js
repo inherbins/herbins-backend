@@ -89,7 +89,7 @@ app.post("/save-order", async (req, res) => {
       address,
       JSON.stringify(items),
       amount,
-      Paid
+      "PAID"
     ]);
 
     res.send("Order saved successfully");
