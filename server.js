@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const Razorpay = require("razorpay");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const mysql = require("mysql2");
 
 const app = express();
