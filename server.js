@@ -8,11 +8,15 @@ const mysql = require("mysql2");
 
 const app = express();
 
+const cors = require('cors');
+
 app.use(cors({
-  origin: "*",
+  origin: "https://herbins.shop",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+app.options("*", cors());
 
 // ✅ VERY IMPORTANT (handles preflight)
 app.options("*", cors());
