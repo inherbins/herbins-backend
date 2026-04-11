@@ -2,8 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const Razorpay = require("razorpay");
-const bodyParser = require("body-parser");
-const mysql = require("mysql2");
+const cors = require('cors');
 
 const app = express();
 
@@ -17,6 +16,7 @@ app.use(cors({
 
 app.options("*", cors());
 
+app.use(express.json());
 
 // ✅ MySQL (CREATE FIRST)
 const { Pool } = require('pg');
@@ -56,7 +56,6 @@ if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
   console.log("❌ Razorpay keys missing");
 }
 
-
 // ✅ Create Order
 app.post("/create-order", async (req, res) => {
   const options = {
@@ -76,33 +75,29 @@ app.post("/create-order", async (req, res) => {
 
 
 // ✅ Save Order
-app.post("/save-order", (req, res) => {
+app.post("/save-order", async (req, res) => {
   const { name, phone, address, items, amount, payment_id } = req.body;
 
   const query = `
     INSERT INTO orders (name, phone, address, items, amount, payment_id)
-    VALUES (?, ?, ?, ?, ?, ?)
+    VALUES ($1, $2, $3, $4, $5, $6)
   `;
 
-  pool.query(
-    query,
-    [
+  try {
+    await pool.query(query, [
       name,
       phone,
       address,
       JSON.stringify(items),
       amount,
       payment_id
-    ],
-    (err, result) => {
-      if (err) {
-        console.log("DB Error:", err);
-        return res.status(500).send("Error saving order");
-      }
+    ]);
 
-      res.send("Order saved successfully");
-    }
-  );
+    res.send("Order saved successfully");
+  } catch (err) {
+    console.log("DB Error:", err);
+    res.status(500).send("Error saving order");
+  }
 });
 
 
